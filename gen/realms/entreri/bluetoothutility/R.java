@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package realms.jarlaxle.robot;
+package realms.entreri.bluetoothutility;
 
 public final class R {
     public static final class attr {
