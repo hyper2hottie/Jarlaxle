@@ -4,9 +4,39 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="fill_parent"
+    <LinearLayout 
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
+        android:weightSum="100" >
+        
+        <Button
+            android:id="@+id/autoConnect"
+            android:onClick="autoConnect"
+            android:text="@string/autoConnect" 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"/>
+        
+        <Button
+            android:id="@+id/manualConnect"
+            android:onClick="manualConnect"
+            android:text="@string/manualConnect" 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"/>
+        
+        <TextView 
+            android:id="@+id/device"
+            android:text="@string/connection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"/>
+    </LinearLayout>
+    
+    <fragment 
+        android:name="realms.Entreri.movingcircle.MovingCircleFragment"
+        android:id="@+id/movingCircleFragment"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"/>
 
 </LinearLayout>

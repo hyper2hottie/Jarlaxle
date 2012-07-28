@@ -3,5 +3,8 @@
 
     <string name="hello">Hello World, JarlaxleActivity!</string>
     <string name="app_name">Jarlaxle</string>
+    <string name="autoConnect">Auto Connect</string>
+    <string name="manualConnect">Manual Connect</string>
+    <string name="connection">No Connection</string>
 
 </resources>
