@@ -1,6 +1,7 @@
-package realms.entreri.movingcircle;
+package realms.jarlaxle.movingcircle;
 
-import realms.entreri.movingcircle.MovingCircleView.MovingCircleThread;
+import realms.entreri.bluetoothutility.R;
+import realms.jarlaxle.movingcircle.MovingCircleView.MovingCircleThread;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;

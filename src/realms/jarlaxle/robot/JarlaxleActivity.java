@@ -1,8 +1,8 @@
 package realms.jarlaxle.robot;
 
-import realms.entreri.movingcircle.MovingCircleListener;
-import realms.entreri.bluetoothutility.BluetoothClass;
-import realms.entreri.movingcircle.MovingCircleFragment;
+import realms.jarlaxle.movingcircle.MovingCircleListener;
+import realms.jarlaxle.bluetoothutility.BluetoothClass;
+import realms.jarlaxle.movingcircle.MovingCircleFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
