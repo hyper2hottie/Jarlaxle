@@ -15,7 +15,7 @@
             android:text="@string/autoConnect" 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"/>
+            android:layout_weight="25"/>
         
         <Button
             android:id="@+id/manualConnect"
@@ -23,14 +23,14 @@
             android:text="@string/manualConnect" 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"/>
+            android:layout_weight="25"/>
         
         <TextView 
             android:id="@+id/device"
             android:text="@string/connection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.50"/>
+            android:layout_weight="50"/>
     </LinearLayout>
     
     <fragment 

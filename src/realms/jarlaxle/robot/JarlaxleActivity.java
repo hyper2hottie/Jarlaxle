@@ -63,8 +63,8 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
 		super.onResume();
 		
 		//Register this as a listener to the MovingCircleView
-    	MovingCircleFragment fragment = (MovingCircleFragment)getFragmentManager().findFragmentById(R.id.movingCircleFragment);
-    	fragment.registerListener(this);
+    	//MovingCircleFragment fragment = (MovingCircleFragment)getFragmentManager().findFragmentById(R.id.movingCircleFragment);
+    	//fragment.registerListener(this);
 	}
 	
 	/**
@@ -75,8 +75,8 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
 		super.onPause();
 		
 		//unregister this as a listener to the MovingCircleView
-    	MovingCircleFragment fragment = (MovingCircleFragment)getFragmentManager().findFragmentById(R.id.movingCircleFragment);
-    	fragment.unregisterListener(this);
+    	//MovingCircleFragment fragment = (MovingCircleFragment)getFragmentManager().findFragmentById(R.id.movingCircleFragment);
+    	//fragment.unregisterListener(this);
 	}
 	
 	
