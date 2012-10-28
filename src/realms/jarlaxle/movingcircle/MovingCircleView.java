@@ -25,12 +25,6 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		/** Color of the circle */
 		public static final int CIRCLE_COLOR = 0xffff0000;
 		
-		/** Animation states */
-		public static final int STATE_RUNNING = 1;
-		public static final int STATE_PAUSED = 2;
-		public static final int STATE_WAITING = 3;
-		public static final int STATE_STOPPING = 4;
-		
 		/*
 		 * State fields
 		 */
@@ -98,51 +92,11 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 			vY = 1;
 		}
 		
-		/**
-		 * Starts the animations
-		 */
-		public void doStart()
-		{
-			setState(STATE_RUNNING);
-		}
-		
-		/**
-		 * Pause animating
-		 */
-		public void pause()
-		{
-			synchronized (surfaceHolder) {
-				if(state == STATE_RUNNING) setState(STATE_PAUSED);
-			}			
-		}
-		
-		/**
-		 * Get the thread to wait.
-		 * @throws InterruptedException 
-		 */
-		public void waitThread()
-		{
-			synchronized (this) {
-				try {
-					this.wait();
-				} catch (InterruptedException e) {
-					
-				}
-			}
-		}
-		
 		@Override
 		public void run()
 		{
 			while(isRunning)
-			{		
-				//For stopping the thread during a pause
-				if(state == STATE_WAITING)
-					waitThread();
-				//This is used for destroying the thread
-				if(state == STATE_STOPPING)
-					return;
-				
+			{						
 				//Change offset if necessary
 				if(updateOffset)
 					decreaseOffset();
@@ -153,11 +107,12 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 				{
 					c = surfaceHolder.lockCanvas(null);
 					synchronized (surfaceHolder) {
-						//updateCircle();						
-						if (state == STATE_RUNNING) updateCircleLocation();
+						updateCircleLocation();
 						doDraw(c);
 					}
 				}
+				catch(NullPointerException e)
+				{}
 				finally
 				{
 					if(c != null)
@@ -194,14 +149,6 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		}
 		
 		/**
-		 * Resume animating.
-		 */
-		public void unpause()
-		{
-			setState(STATE_RUNNING);
-		}
-		
-		/**
 		 * Used to signal the thread to run or not.
 		 * True lets it run, false will shut down the thread.
 		 * 
@@ -210,14 +157,6 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		public void setRunning(boolean run)
 		{
 			isRunning = run;
-		}
-		
-		/**
-		 * Set the current state of animation
-		 */
-		public void setState(int state)
-		{
-			this.state = state;
 		}
 		
 		/**
@@ -402,10 +341,7 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		//register that we want to head changes to our surface
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
-		
-		//create thread, it is started in surfaceCreated()
-		thread = new MovingCircleThread(holder);
-		
+				
 		//create the listeners list
 		listeners = new LinkedList<MovingCircleListener>();
 		
@@ -418,8 +354,6 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
      */
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-        if (!hasWindowFocus) thread.pause();
-        else thread.unpause();
     }
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,	int height) {
@@ -430,7 +364,8 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 	public void surfaceCreated(SurfaceHolder holder) {
 		// start the thread here so that we don't busy-wait in run()
         // waiting for the surface to be created
-        thread.setRunning(true);
+		thread = new MovingCircleThread(holder);
+		thread.setRunning(true);
         if(!thread.isAlive())
         	thread.start();
         else
@@ -442,9 +377,24 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		
 	}
 
+	/**
+	 * The surface is destroyed once this returns, stop the thread from trying to touch it
+	 * holder - The holder that holds the surface
+	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// we have to tell thread to wait until it is resumed
-        thread.setState(MovingCircleThread.STATE_WAITING);
+		//stop the thread so it doesn't try to access the destroyed surface
+		boolean retry = true;
+		thread.setRunning(false);
+		while(retry)
+		{
+			try
+			{
+				thread.join();
+				retry = false;
+			}
+			catch(InterruptedException e)
+			{}
+		}
 		
 	}	
 	

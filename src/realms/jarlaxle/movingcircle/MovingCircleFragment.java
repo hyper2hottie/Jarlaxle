@@ -40,7 +40,7 @@ public class MovingCircleFragment extends Fragment {
 		
 		//Get the circle view and thread
         circleView = (MovingCircleView) toReturn.findViewById(R.id.movingCircle);
-        circleThread = circleView.getThread();
+        //circleThread = circleView.getThread();
         
 		return toReturn;
 	}
@@ -67,8 +67,7 @@ public class MovingCircleFragment extends Fragment {
     	if(d)
 			Log.d("MovingCircleFragment", "Entered onResume");
     	super.onResume();
-    	circleView.getThread().unpause();
-    		
+    	circleThread = circleView.getThread();    		
     }   
     
     /**
@@ -77,21 +76,7 @@ public class MovingCircleFragment extends Fragment {
     @Override
     public void onDestroy()
     {
-    	super.onDestroy();
-    	//Release the thread lock so it can quit
-    	circleView.getThread().setState(MovingCircleThread.STATE_STOPPING);
-    	synchronized (circleView.getThread()) {
-    		circleView.getThread().notifyAll();
-		}
-    	boolean retry = true;
-        circleView.getThread().setRunning(false);
-        while (retry) {
-            try {
-            	circleView.getThread().join();
-                retry = false;
-            } catch (InterruptedException e) {
-            }
-        }		
+    	super.onDestroy();	
     }
     
     //------------------------------------------------------------------------------
