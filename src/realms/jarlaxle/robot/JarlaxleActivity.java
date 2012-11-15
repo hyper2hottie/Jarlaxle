@@ -35,12 +35,12 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        /*mBluetooth = new BluetoothClass(this, mHandler);
+        mBluetooth = new BluetoothClass(this, mHandler);
         if(!mBluetooth.isBluetoothAvailable())
 		{
 			Toast.makeText(this, "Bluetooth is not available.", Toast.LENGTH_LONG).show();
 			finish();
-		}*/
+		}
     }
     
 	
@@ -48,11 +48,11 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
 	public void onStart()
 	{
 		super.onStart();
-		/*if(mBluetooth.isConnected())
+		if(mBluetooth.isConnected())
 		{
 			mBluetooth.setDeviceName("bToothTest");
 			mBluetooth.autoConnect();
-		}*/
+		}
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
 	public void onDestroy()
 	{
 		super.onDestroy();
-		/*if(mBluetooth != null)
+		if(mBluetooth != null)
 		{
 			mBluetooth.cancel();
 			mBluetooth = null;
@@ -95,7 +95,7 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
 		{
 			mDialog.cancel();
 			mDialog = null;
-		}*/
+		}
 	}
 	
   //-------------------------------------Dialogs-------------------------------------
