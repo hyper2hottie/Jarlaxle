@@ -19,11 +19,14 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		/*
 		 * CONSTANTS
 		 */
-		/** Width of the circle in pixels */
+		/** Width of the moving circle in pixels */
 		public static final int CIRCLE_WIDTH = 50;
 		
 		/** Color of the circle */
 		public static final int CIRCLE_COLOR = 0xffff0000;
+		
+		/** Default radius of movement for the moving circle, the radius of the large background circle. */
+		public static final int MOVEMENT_RADIUS = 126;
 		
 		/*
 		 * State fields
@@ -48,7 +51,7 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 		private int X;
 		private int Y;
 		
-		/** Radius of movement. */
+		/** Radius of movement for the moving circle, the radius of the large background circle. */
 		private int radius;
 		
 		/** Boolean to decide to change the circle offset or not */
@@ -138,7 +141,7 @@ public class MovingCircleView extends SurfaceView implements SurfaceHolder.Callb
 				circle.setBounds(left, top, left + CIRCLE_WIDTH, top + CIRCLE_WIDTH);
 				
 				//Set the radius of motion
-				radius = 255;
+				radius = MOVEMENT_RADIUS;
 				radius = (radius > (Math.min(canvasHeight, canvasWidth)/2)) ? Math.min(canvasHeight, canvasWidth) / 2: radius;
 				if(radius < 0)
 					radius = 0;

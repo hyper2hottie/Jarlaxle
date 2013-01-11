@@ -236,7 +236,7 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
     	runOnUiThread(new Runnable()
 		{
 			public void run() {
-				sendAngleMagnitude(X, Y);
+				sendRightLeft(X, Y);
 			}
 			
 		});
@@ -252,7 +252,7 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
   	 */
   	protected void sendData(char data)
   	{
-  		if(mBluetooth != null)
+  		if(mBluetooth != null && mBluetooth.isConnected())
   		{
   			mBluetooth.write(data);
   		}
@@ -267,8 +267,54 @@ public class JarlaxleActivity extends Activity  implements MovingCircleListener{
   	 * @param X - The x coordinate for conversion.
   	 * @param Y - The y coordinate for conversion.
   	 */
-  	protected void sendAngleMagnitude(int X, int Y)
+  	protected void sendRightLeft(int X, int Y)
   	{
+  		int xSign = 1;
+  		if(X < 0)
+  		{
+  			xSign = -1;
+  		}
+  		double magnitude = Math.abs(Y);
+  		int right = 0;
+  		int left = 0;
+  		
+  		if(Y >=0)
+  		{
+  			right = (int) Math.sqrt(Math.abs(magnitude*magnitude - X*X*xSign));
+  	  		left = (int) Math.sqrt(Math.abs(magnitude*magnitude + X*X*xSign));
+  			
+  	  		if((magnitude*magnitude - X*X*xSign) > 0)
+  			{
+  				right += 128;
+  			}
+
+  			if((magnitude*magnitude + X*X*xSign) > 0)
+  			{
+  				left += 128;
+  			}
+  		}
+  		else if(Y < 0)
+  		{
+  			right = (int) Math.sqrt(Math.abs(-1*magnitude*magnitude + X*X*xSign));
+  	  		left = (int) Math.sqrt(Math.abs(-1*magnitude*magnitude - X*X*xSign));
+  	  		
+  			if(-1*magnitude*magnitude + X*X*xSign > 0)
+  			{
+  				right += 128;
+  			}
+  			
+  			if(-1*magnitude*magnitude - X*X*xSign > 0)
+  			{
+  				left += 128;
+  			}  		
+  		}
+  		
+  		char rightSend = (char)right;
+  		char leftSend = (char)left;
+
+  		((TextView)findViewById(R.id.position)).setText(X + ", " + Y + ", " + right + ", " + left);
+  		sendData(rightSend);
+  		sendData(leftSend);
   		
   	}
   	
